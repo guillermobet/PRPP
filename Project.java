@@ -3,6 +3,9 @@ import java.util.PriorityQueue;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class Project {
@@ -98,11 +101,30 @@ public class Project {
 				}
 			}
 			
-			System.out.println("\nBest cycle found:\n" + bestCycle);
+			System.out.println("\nBest cycle found:\n\n" + bestCycle);
 			System.out.println("\nBest overall reward: " + bestOverallReward);
 			input.close();
 			long stop = System.currentTimeMillis();
-			System.out.printf("Time elapsed: %d milliseconds\n", (stop - start));
+			System.out.printf("\nTime elapsed: %d milliseconds\n", (stop - start));
+			System.out.println("\nGenerating output file \"" + args[0] + "-salida.txt\"");
+
+			BufferedWriter bw = null;
+			FileWriter fw = null;
+			
+			try {
+				fw = new FileWriter(args[0] + "-salida.txt");
+				bw = new BufferedWriter(fw);
+				bw.write(String.valueOf(bestOverallReward));
+				bw.write("\n");
+				for (int i = 0; i < bestCycle.size(); i++) {
+					bw.write(String.valueOf(bestCycle.get(i)) + " ");
+				}
+				if (bw != null) {bw.close();}
+				if (fw != null) {fw.close();}
+			}
+			catch (IOException e) {}
+			System.out.println("\nSuccessfully generated output file \"" + args[0] + "-salida.txt\"\n");
+
 			//System.out.println("\t" + (stop - start) + "\t\t\t\t" + bestOverallReward + "\t\t\t" + bestCycle);
 
 		}
