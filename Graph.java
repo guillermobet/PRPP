@@ -60,22 +60,60 @@ public class Graph {
 		}
 	}
 
-/*	public ArrayList<Integer> optimizeSolution(ArrayList<Integer> myCycle, myOverallReward) {
-		int currentVertex = -1;
-		int optimizedOverallReward = myOverallReward;
-		int subReward;
-		for (int i = 1; i < myCycle.size(); i++) {
-			currentVertex = myCycle.get(i);
-			for (int j = i + 1; j < myCycle.size(); j++) {
-				if (currentVertex == myCycle.get(j)) {
-					this.reconfigureBenefit(null)
-					subReward = 0;
-
+	public ArrayList<Integer> optimizeSolution(ArrayList<Integer> myCycle) {
+		ArrayList<Integer> optimizedPath = myCycle;
+		ArrayList<Integer> auxPath = null;
+		Edge temporaryEdge;
+		int rewardChanges = 0;
+		int overallRewardImprovement = 0;
+		int i = 0;
+		int j = 1;
+		while (i < myCycle.size()-1) {
+			while (j < myCycle.size()) {
+				temporaryEdge = new Edge(j-1, j, -1, -1);
+				for (Edge e : this.vertices.get(myCycle.get(j-1)).incidents) {
+					if (e.compareTo(temporaryEdge) == 0) {
+						if (e.benefit < 0) {
+							rewardChanges += -e.cost;	
+						}
+						else {
+							rewardChanges += (e.benefit - e.cost);
+							e.benefit = -1*e.benefit;
+						}
+					}
+				}
+				for (Edge e : this.vertices.get(myCycle.get(j)).incidents) {
+					if (e.compareTo(temporaryEdge) == 0) {
+						e.benefit = (e.benefit < 0) ? e.benefit : -1*e.benefit;
+					}
+				}
+				if (myCycle.get(i) == myCycle.get(j)) {
+					if (rewardChanges < 0) {
+						//System.out.println("rewardChanges: " + rewardChanges);
+						auxPath = new ArrayList<Integer>();
+						for (int k = 0; k <= i; k++) {
+							auxPath.add(optimizedPath.get(k));
+						}
+						for (int k = j+1; k < j+1; k++) {
+							auxPath.add(optimizedPath.get(k));
+						}
+						optimizedPath = auxPath;
+						auxPath = null;
+						overallRewardImprovement += rewardChanges;
+					}
+					rewardChanges = 0;
+					i = j;
+					j += 1;
+				}
+				else {
+					j += 1;
 				}
 			}
 		}
+		optimizedPath.add(overallRewardImprovement);
+		return optimizedPath;
 	}
-*/
+
 
 	public void reconfigureBenefit(ArrayList<Integer> path) {
 		Edge temporaryEdge;
@@ -149,9 +187,9 @@ public class Graph {
 			maxCost = Math.max(maxCost,costBenefit.get(i));
 		}
 		for (int i = 0; i < costBenefit.size(); i++) {
-			if (true) {
+			//if (true) {
 				maxVertices.add(i);
-			}
+			//}
 		}
 
 		paths = new ArrayList<ArrayList<Integer>>(maxVertices.size()+1);

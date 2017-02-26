@@ -66,7 +66,7 @@ public class Project {
 			graph.restartVisited();
 			
 			ArrayList<Integer> myPath, myBackPath, myCycle, myOptimizedCycle, bestCycle;
-			int myReward, myBackReward, bestOverallReward;
+			int myReward, myBackReward, bestOverallReward, optimizedOverallReward;
 
 			bestCycle = null;
 			bestOverallReward = Integer.MIN_VALUE;
@@ -83,10 +83,16 @@ public class Project {
 
 				myCycle = cycleMaker(myPath, myBackPath);
 				graph.reconfigureBenefit(null);
-				//myOptimzedCycle = graph.optimizeSolution(myCycle, myReward + myBackReward);
+				//
+
+				myOptimizedCycle = graph.optimizeSolution(myCycle);
+				//System.out.println("FOO: " + foo);
+				optimizedOverallReward = myReward + myBackReward - myOptimizedCycle.remove(myOptimizedCycle.size()-1);
+				graph.reconfigureBenefit(null);
+
 
 				//System.out.println("Optimized cycle: " + myOptimizedCycle);
-				if (bestOverallReward < myReward + myBackReward) {
+				if (bestOverallReward < optimizedOverallReward) {
 					bestOverallReward = myReward + myBackReward;
 					bestCycle = myCycle;
 				}
@@ -95,7 +101,9 @@ public class Project {
 			System.out.println("\nBest cycle found:\n" + bestCycle);
 			System.out.println("\nBest overall reward: " + bestOverallReward);
 			input.close();
-			System.out.printf("Time elapsed: %d milliseconds\n", (System.currentTimeMillis() - start));
+			long stop = System.currentTimeMillis();
+			System.out.printf("Time elapsed: %d milliseconds\n", (stop - start));
+			//System.out.println("\t" + (stop - start) + "\t\t\t\t" + bestOverallReward + "\t\t\t" + bestCycle);
 
 		}
 		catch (FileNotFoundException fnfe) {
