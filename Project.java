@@ -46,6 +46,7 @@ public class Project {
 
 	public static void main (String[] args) {
 		try {
+			long start = System.currentTimeMillis();
 			Scanner	input = new Scanner(new File(args[0]));
 			int numVertices = getNumber(input);
 			int numEdgesRQ = getNumber(input);
@@ -91,8 +92,10 @@ public class Project {
 				}
 			}
 			
-			System.out.println("Best cycle found:\n\t" + bestCycle);
+			System.out.println("\nBest cycle found:\n" + bestCycle);
 			System.out.println("\nBest overall reward: " + bestOverallReward);
+			input.close();
+			System.out.printf("Time elapsed: %d milliseconds\n", (System.currentTimeMillis() - start));
 
 		}
 		catch (FileNotFoundException fnfe) {
