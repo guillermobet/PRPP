@@ -1,4 +1,9 @@
 import java.util.Scanner;
+import java.util.PriorityQueue;
+import java.util.Comparator;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Project {
 
@@ -28,19 +33,45 @@ public class Project {
 	}
 
 	public static void main (String[] args) {
-		Scanner	input = new Scanner(System.in);
-		int numVertices = getNumber(input);
-		int numEdgesRQ = getNumber(input);
-		
-		Graph graph = new Graph(numVertices, numEdgesRQ);
-		fillGraph(graph, input, graph.numEdgesRQ);
-		graph.connectedComponents();
-		int numEdgesP = getNumber(input);
-		
-		graph.setNumEdgesP(numEdgesP);
-		fillGraph(graph, input, graph.numEdgesP);
-		graph.cutVertices(0,0,-1);
+		try {
+			Scanner	input = new Scanner(new File(args[0]));
+			int numVertices = getNumber(input);
+			int numEdgesRQ = getNumber(input);
+			
+			Graph graph = new Graph(numVertices, numEdgesRQ);
+			fillGraph(graph, input, graph.numEdgesRQ);
+			graph.connectedComponents();
+			int numEdgesP = getNumber(input);
+			
+			graph.setNumEdgesP(numEdgesP);
+			fillGraph(graph, input, graph.numEdgesP);
 
-		graph.printGraph();
+			//graph.cutVertices(0,0,-1); // check
+			//graph.printGraph();
+			
+			ArrayList<ArrayList<Integer>> paths = graph.maxSTPrim(0);
+			graph.restartVisited();
+
+			for (ArrayList<Integer> i : paths) {
+				System.out.println(i);
+			}
+		}
+		catch (FileNotFoundException fnfe) {
+			System.out.printf("File \"%d\" not found. Program will abort\n", args[1]);
+		}
 	}
 }
+
+		/* MAIN DEBUG
+		
+		Comparator<Edge> comparator = new EdgeComparator();
+		PriorityQueue<Edge> pq = new PriorityQueue<Edge>(graph.numEdgesP + graph.numEdgesRQ, comparator);
+
+		for (Edge e : graph.vertices.get(4).incidents) {
+			pq.add(e);
+		}
+
+		while (pq.size() > 0) {
+			pq.remove().printEdge();
+		}
+		*/

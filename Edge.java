@@ -1,4 +1,4 @@
-public class Edge {
+public class Edge implements Comparable<Edge>{
 
 	/* Members: vertex 1, vertex 2, cost and benefit of the edge
 	 */
@@ -31,6 +31,17 @@ public class Edge {
 	 */
 	public void printEdge() {
 		System.out.printf("\t\tV%d - V%d | Cost = %d | Benefit %d | Type %c\n", this.v1, this.v2, this.cost, this.benefit, this.type);
+	}
+
+	public boolean connectsVertex(int v) {
+		return (v == this.v1 || v == this.v2);
+	}
+
+	// 0 == equal; 1 == distinct
+	@Override
+	public int compareTo(Edge e) {
+		int ret = (((this.v1 == e.v1) && (this.v2 == e.v2)) || (this.v1 == e.v2) && (this.v2 == e.v1)) ? 0 : 1;
+		return ret;
 	}
 
 }
