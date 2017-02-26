@@ -6,7 +6,7 @@ public class Vertex {
 	 *			visited boolean, articulation boolean and and
 	 *			ArrayList of incident edges
 	 */
-	public int id, connected;
+	public int id, connected, priority;
 	public boolean visited, articulation;
 	public ArrayList<Edge> incidents;
 
@@ -46,47 +46,3 @@ public class Vertex {
 	}
 
 }
-
-/*
-public class Vertex {
-	
-	public int id;
-	public boolean connected, visited, articulation;
-	public ArrayList<Edge> incidents;
-
-	public Vertex(int id, boolean connected, boolean visited) {
-		this.id = id;
-		this.connected = false;
-		this.visited = false;
-		this.articulation = false;
-		this.incidents = new ArrayList<Edge>();
-		this.incidents.clear();
-	}
-
-	public void addIncident(Edge e) {
-		if (!this.hasIncident(e)) {
-			this.incidents.add(e)
-		}
-	}
-
-	public boolean hasIncident(Edge e) {
-		return this.incidents.contains(e);
-	}
-
-	public Edge getIncident(int position) {
-		return this.incidents.get(position);
-	}
-
-	public void removeAdjacent(Edge e) {
-		this.incidents.remove(e)
-	}
-
-	public int numberOfIncidents() {
-		return this.incidents.size();
-	}
-
-	public String toString() {
-		return String.format("Vertex %d", id); 
-	}
-
-}*/

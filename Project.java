@@ -48,31 +48,46 @@ public class Project {
 
 			//graph.cutVertices(0,0,-1); // check
 			
-			ArrayList<ArrayList<Integer>> paths = graph.maxSTPrim(0);
+			ArrayList<ArrayList<Integer>> primPaths = graph.maxSTPrim(0);
+			ArrayList<Integer> primRewards = primPaths.remove(primPaths.size()-1);
 			graph.restartVisited();
-
-			for (ArrayList<Integer> i : paths) {
-				System.out.println(i);
-			}
 			
-			graph.printGraph();
+
+			for (int k = 0; k < primPaths.size(); k++) {
+				ArrayList<Integer> myPath = primPaths.get(k);
+				int myReward = primRewards.get(k);
+				
+				graph.restartVisited();
+				graph.reconfigureBenefit(myPath);
+				
+				ArrayList<Integer> myBackPath = graph.modifiedDijkstra(myPath.get(myPath.size()-1), 0);
+				int myBackReward = myBackPath.remove(myBackPath.size()-1);
+
+				System.out.println("myPath: " + myPath);
+				System.out.println("myBackPath: " + myBackPath);
+				System.out.println("myOverallReward: " + (myReward + myBackReward));
+				System.out.println("----------");
+			}
+
+			//ArrayList<Integer> dijkstra;
+			//int backBenefit;
+
+			//int backVertex = primPaths.get(1).remove(primPaths.get(1).size()-1);
+/*			for (int i = 0; i < primPaths.size(); i++) {
+				graph.reconfigureBenefit(primPaths.get(i));
+				dijkstra = graph.modifiedDijkstra(backVertex, 0);
+				graph.restartVisited();
+				backBenefit = dijkstra.remove(dijkstra.size()-1);
+				graph.reconfigureBenefit(dijkstra);
+				System.out.println("Dijkstra: " + dijkstra);
+				System.out.println("Cycle reward: " + (primCosts.get(i) + backBenefit));
+				System.out.println("---------");
+			}
+*/
+			
 		}
 		catch (FileNotFoundException fnfe) {
 			System.out.printf("File \"%d\" not found. Program will abort\n", args[1]);
 		}
 	}
 }
-
-		/* MAIN DEBUG
-		
-		Comparator<Edge> comparator = new EdgeComparator();
-		PriorityQueue<Edge> pq = new PriorityQueue<Edge>(graph.numEdgesP + graph.numEdgesRQ, comparator);
-
-		for (Edge e : graph.vertices.get(4).incidents) {
-			pq.add(e);
-		}
-
-		while (pq.size() > 0) {
-			pq.remove().printEdge();
-		}
-		*/
