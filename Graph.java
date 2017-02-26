@@ -60,6 +60,23 @@ public class Graph {
 		}
 	}
 
+/*	public ArrayList<Integer> optimizeSolution(ArrayList<Integer> myCycle, myOverallReward) {
+		int currentVertex = -1;
+		int optimizedOverallReward = myOverallReward;
+		int subReward;
+		for (int i = 1; i < myCycle.size(); i++) {
+			currentVertex = myCycle.get(i);
+			for (int j = i + 1; j < myCycle.size(); j++) {
+				if (currentVertex == myCycle.get(j)) {
+					this.reconfigureBenefit(null)
+					subReward = 0;
+
+				}
+			}
+		}
+	}
+*/
+
 	public void reconfigureBenefit(ArrayList<Integer> path) {
 		Edge temporaryEdge;
 		for (Vertex v : this.vertices) {

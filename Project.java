@@ -32,6 +32,18 @@ public class Project {
 		}
 	}
 
+	public static ArrayList<Integer> cycleMaker(ArrayList<Integer> myPath, ArrayList<Integer> myBackPath) {
+		ArrayList<Integer> myCycle = new ArrayList<Integer>();
+
+		for (int i = 0; i < myPath.size(); i++) {
+			myCycle.add(i, myPath.get(i));
+		}
+		for (int i = 1; i < myBackPath.size(); i++) {
+			myCycle.add(myBackPath.get(i));
+		}
+		return myCycle;
+	}
+
 	public static void main (String[] args) {
 		try {
 			Scanner	input = new Scanner(new File(args[0]));
@@ -52,39 +64,36 @@ public class Project {
 			ArrayList<Integer> primRewards = primPaths.remove(primPaths.size()-1);
 			graph.restartVisited();
 			
+			ArrayList<Integer> myPath, myBackPath, myCycle, myOptimizedCycle, bestCycle;
+			int myReward, myBackReward, bestOverallReward;
+
+			bestCycle = null;
+			bestOverallReward = Integer.MIN_VALUE;
 
 			for (int k = 0; k < primPaths.size(); k++) {
-				ArrayList<Integer> myPath = primPaths.get(k);
-				int myReward = primRewards.get(k);
+				myPath = primPaths.get(k);
+				myReward = primRewards.get(k);
 				
 				graph.restartVisited();
 				graph.reconfigureBenefit(myPath);
 				
-				ArrayList<Integer> myBackPath = graph.modifiedDijkstra(myPath.get(myPath.size()-1), 0);
-				int myBackReward = myBackPath.remove(myBackPath.size()-1);
+				myBackPath = graph.modifiedDijkstra(myPath.get(myPath.size()-1), 0);
+				myBackReward = myBackPath.remove(myBackPath.size()-1);
 
-				System.out.println("myPath: " + myPath);
-				System.out.println("myBackPath: " + myBackPath);
-				System.out.println("myOverallReward: " + (myReward + myBackReward));
-				System.out.println("----------");
+				myCycle = cycleMaker(myPath, myBackPath);
+				graph.reconfigureBenefit(null);
+				//myOptimzedCycle = graph.optimizeSolution(myCycle, myReward + myBackReward);
+
+				//System.out.println("Optimized cycle: " + myOptimizedCycle);
+				if (bestOverallReward < myReward + myBackReward) {
+					bestOverallReward = myReward + myBackReward;
+					bestCycle = myCycle;
+				}
 			}
-
-			//ArrayList<Integer> dijkstra;
-			//int backBenefit;
-
-			//int backVertex = primPaths.get(1).remove(primPaths.get(1).size()-1);
-/*			for (int i = 0; i < primPaths.size(); i++) {
-				graph.reconfigureBenefit(primPaths.get(i));
-				dijkstra = graph.modifiedDijkstra(backVertex, 0);
-				graph.restartVisited();
-				backBenefit = dijkstra.remove(dijkstra.size()-1);
-				graph.reconfigureBenefit(dijkstra);
-				System.out.println("Dijkstra: " + dijkstra);
-				System.out.println("Cycle reward: " + (primCosts.get(i) + backBenefit));
-				System.out.println("---------");
-			}
-*/
 			
+			System.out.println("Best cycle found:\n\t" + bestCycle);
+			System.out.println("\nBest overall reward: " + bestOverallReward);
+
 		}
 		catch (FileNotFoundException fnfe) {
 			System.out.printf("File \"%d\" not found. Program will abort\n", args[1]);
