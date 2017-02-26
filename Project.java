@@ -47,7 +47,6 @@ public class Project {
 			fillGraph(graph, input, graph.numEdgesP);
 
 			//graph.cutVertices(0,0,-1); // check
-			//graph.printGraph();
 			
 			ArrayList<ArrayList<Integer>> paths = graph.maxSTPrim(0);
 			graph.restartVisited();
@@ -55,6 +54,8 @@ public class Project {
 			for (ArrayList<Integer> i : paths) {
 				System.out.println(i);
 			}
+			
+			graph.printGraph();
 		}
 		catch (FileNotFoundException fnfe) {
 			System.out.printf("File \"%d\" not found. Program will abort\n", args[1]);

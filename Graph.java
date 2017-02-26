@@ -175,14 +175,14 @@ public class Graph {
 				costBenefit.set(currentVertex, costBenefit.get(previousVertex) + (currentEdge.benefit - currentEdge.cost));
 				for (Edge e : this.vertices.get(previousVertex).incidents) {
 					if (e.compareTo(currentEdge) == 0) {
-						e.cost = (e.cost >= 0) ? -e.cost : e.cost;
-						currentEdge.cost = (currentEdge.cost >= 0) ? -currentEdge.cost : currentEdge.cost;
+						e.benefit = (e.benefit >= 0) ? -e.benefit : e.benefit;
+						currentEdge.benefit = (currentEdge.benefit >= 0) ? -currentEdge.benefit : currentEdge.benefit;
 					}
 				}
 				for (Edge e : this.vertices.get(currentVertex).incidents) {
 					if (e.compareTo(currentEdge) == 0) {
-						e.cost = (e.cost >= 0) ? -e.cost : e.cost;
-						currentEdge.cost = (currentEdge.cost >= 0) ? -currentEdge.cost : currentEdge.cost;
+						e.benefit = (e.benefit >= 0) ? -e.benefit : e.benefit;
+						currentEdge.benefit = (currentEdge.benefit >= 0) ? -currentEdge.benefit : currentEdge.benefit;
 					}
 					else if (e.compareTo(currentEdge) == 1) {
 						pqueue.add(e);
