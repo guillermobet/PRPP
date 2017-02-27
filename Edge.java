@@ -29,13 +29,9 @@ public class Edge implements Comparable<Edge>{
 
 	/* printEdge: print the Edge in human-readable format
 	 */
-	public void printEdge() {
-		System.out.printf("\t\tV%d - V%d | Cost = %d | Benefit %d | Type %c\n", this.v1, this.v2, this.cost, this.benefit, this.type);
-	}
+	public void printEdge() {System.out.printf("\t\tV%d - V%d | Cost = %d | Benefit %d | Type %c\n", this.v1, this.v2, this.cost, this.benefit, this.type);}
 
-	public boolean connectsVertex(int v) {
-		return (v == this.v1 || v == this.v2);
-	}
+	public boolean connectsVertex(int v) {return (v == this.v1 || v == this.v2);}
 
 	// 0 == equal; 1 == distinct
 	@Override
@@ -45,11 +41,3 @@ public class Edge implements Comparable<Edge>{
 	}
 
 }
-	/*
-	public Vertex getAdjacent(Vertex current) {
-		if (current.id != v1.id || current.id != v2.id) {
-			return null;
-		}
-		return (current.id == v1.id) ? v1 : v2;
-	}
-	*/
