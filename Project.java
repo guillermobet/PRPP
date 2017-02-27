@@ -62,8 +62,6 @@ public class Project {
 			graph.setNumEdgesP(numEdgesP);
 			fillGraph(graph, input, graph.numEdgesP);
 
-			//graph.cutVertices(0,0,-1); // check
-			
 			ArrayList<ArrayList<Integer>> primPaths = graph.maxSTPrim(0);
 			ArrayList<Integer> primRewards = primPaths.remove(primPaths.size()-1);
 			graph.restartVisited();
@@ -77,7 +75,9 @@ public class Project {
 			for (int k = 0; k < primPaths.size(); k++) {
 				myPath = primPaths.get(k);
 				myReward = primRewards.get(k);
-				
+
+				if (myPath.get(0) != 0) {continue;}
+
 				graph.restartVisited();
 				graph.reconfigureBenefit(myPath);
 				
@@ -86,23 +86,29 @@ public class Project {
 
 				myCycle = cycleMaker(myPath, myBackPath);
 				graph.reconfigureBenefit(null);
-				//
 
 				myOptimizedCycle = graph.optimizeSolution(myCycle);
-				//System.out.println("FOO: " + foo);
-				optimizedOverallReward = myReward + myBackReward - myOptimizedCycle.remove(myOptimizedCycle.size()-1);
+				int foo = myOptimizedCycle.remove(myOptimizedCycle.size()-1);
+				System.out.println("foo: " + foo);
+				optimizedOverallReward = myReward + myBackReward + foo;
 				graph.reconfigureBenefit(null);
 
-
-				//System.out.println("Optimized cycle: " + myOptimizedCycle);
 				if (bestOverallReward < optimizedOverallReward) {
-					bestOverallReward = myReward + myBackReward;
+					bestOverallReward = optimizedOverallReward;
 					bestCycle = myCycle;
 				}
 			}
 			
-			System.out.println("\nBest cycle found:\n\n" + bestCycle);
-			System.out.println("\nBest overall reward: " + bestOverallReward);
+			System.out.println("\nBest cycle found:\n");
+			for (Integer i : bestCycle) {
+				if (i != 0) {
+					System.out.print((i+1) + " ");
+				}
+				else {
+					System.out.print("d ");
+				}
+			}
+			System.out.println("\n\nBest overall reward: " + bestOverallReward);
 			input.close();
 			long stop = System.currentTimeMillis();
 			System.out.printf("\nTime elapsed: %d milliseconds\n", (stop - start));
@@ -117,16 +123,18 @@ public class Project {
 				bw.write(String.valueOf(bestOverallReward));
 				bw.write("\n");
 				for (int i = 0; i < bestCycle.size(); i++) {
-					bw.write(String.valueOf(bestCycle.get(i)) + " ");
+					if (bestCycle.get(i) != 0){
+						bw.write(String.valueOf(bestCycle.get(i)+1) + " ");
+					}
+					else {
+						bw.write("d ");
+					}
 				}
 				if (bw != null) {bw.close();}
 				if (fw != null) {fw.close();}
 			}
 			catch (IOException e) {}
 			System.out.println("\nSuccessfully generated output file \"" + args[0] + "-salida.txt\"\n");
-
-			//System.out.println("\t" + (stop - start) + "\t\t\t\t" + bestOverallReward + "\t\t\t" + bestCycle);
-
 		}
 		catch (FileNotFoundException fnfe) {
 			System.out.printf("File \"%d\" not found. Program will abort\n", args[1]);
