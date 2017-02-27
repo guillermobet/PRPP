@@ -84,7 +84,7 @@ public class Project {
 			graph.restartVisited();
 			
 			ArrayList<Integer> myPath, myBackPath, myCycle, myOptimizedCycle, bestCycle;
-			int myReward, myBackReward, bestOverallReward, optimizedOverallReward;
+			int myReward, myBackReward, bestOverallReward, optimizedOverallReward, optimizacionImprovement;
 
 			bestCycle = null;
 			bestOverallReward = Integer.MIN_VALUE;
@@ -105,9 +105,8 @@ public class Project {
 				graph.reconfigureBenefit(null);
 
 				myOptimizedCycle = graph.optimizeSolution(myCycle);
-				int foo = myOptimizedCycle.remove(myOptimizedCycle.size()-1);
-				System.out.println("foo: " + foo);
-				optimizedOverallReward = myReward + myBackReward + foo;
+				optimizacionImprovement = myOptimizedCycle.remove(myOptimizedCycle.size()-1);
+				optimizedOverallReward = myReward + myBackReward + optimizacionImprovement;
 				graph.reconfigureBenefit(null);
 
 				if (bestOverallReward < optimizedOverallReward) {
