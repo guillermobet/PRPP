@@ -1,2 +1,15 @@
-#### $ javac Project.java
-#### $ java Project.java [file containg the graph]
+Para la resolucion del proyecto se programó la solución en Java.
+
+Para compilar el programa, se debe ejecutar:
+
+
+### $javac Project.java
+
+
+Para calcular una solucion a un grafo, se procede ejecutando:
+
+
+### $ java Project.java [file containg the graph]
+
+
+El optimizador que se implementó, está incorporado ya en la solución.
