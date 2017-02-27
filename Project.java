@@ -10,6 +10,11 @@ import java.io.FileNotFoundException;
 
 public class Project {
 
+	/* getNumber:		reads a number from a file with alphanumeric values
+	 * @param input:	scanner to read the input
+	 *
+	 * @returns number: the number read
+	 */
 	public static int getNumber(Scanner input) {
 		String[] line = input.nextLine().split(" ");
 		int number = -1;
@@ -22,6 +27,12 @@ public class Project {
 		return number;
 	}
 
+	/* fillGraph:		fills an empty graph structure with the file being read
+	 *					with the Scanner input
+	 * 
+	 *
+	 *
+	 */
 	public static void fillGraph(Graph graph, Scanner input, int numEdges) {
 		String[] edgeStr;
 		int[] edgeInt = {0, 0, 0, 0};

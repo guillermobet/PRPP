@@ -171,6 +171,8 @@ public class Graph {
 	 * @param vertex:	 start vertex
 	 * @param d:		 vertex depth
 	 * @param parent:	 vertex parent
+	 *
+	 * @returns ret:	 recursive depth and low of each vertex
 	 */
 	public int[] innerCutVertices(int vertex, int d, int parent) {
 		this.vertices.get(vertex).visited = true;
@@ -204,9 +206,13 @@ public class Graph {
 	}
 
 	/* rebuildPathsPrim:	given a the predecessors of each node in the maximum
-	 *						spanning tree
+	 *						spanning tree, this method reconstructs the tree path
+	 *						from the deposit vertex to every other vextex
+	 * @param predecessor:	list of predecessors of each vertex in the tree
+	 * @param costBenefit:	list of benefit-cost of reaching each node from the deposit
 	 *
-	 *
+	 * @returns paths:		every path of the maximun spanning tree from the deposit to
+	 *						every other vertex
 	 */
 	public ArrayList<ArrayList<Integer>> rebuildPathsPrim(ArrayList<Integer> predecessor, ArrayList<Integer> costBenefit) {
 		int maxCost = Integer.MIN_VALUE;
@@ -243,6 +249,11 @@ public class Graph {
 		return paths;
 	}
 
+	/* maxVertex:				naive implementation of priority queue for vertices
+	 * @param distance:			priority of each vertex
+	 * 
+	 * @returns indexMaxVertex: index of the highest priority index
+	 */
 	public int maxVertex(ArrayList<Integer> distance) {
 		int valueMaxVertex = Integer.MIN_VALUE;
 		int indexMaxVertex = -1;
@@ -255,6 +266,14 @@ public class Graph {
 		return indexMaxVertex;
 	}
 
+	/* rebuildPathDijkstra:		rebuilds the paths yield by the modified Dijkstra from the
+	 *							final vertex to the deposit
+	 * @param predecessor:		list of predecessors of each vertex, yield by the modified Dijkstra
+	 * @param finalDistance:	function of the highest benefit-cost for each vertex from the final vertex 
+	 * @param finalVertex:		vertex considered to start the way back to the deposit
+	 *
+	 * @returns path 			the path with the best benefit-cost from the final vertex to the deposit
+	 */
 	public ArrayList<Integer> rebuildPathDijkstra(ArrayList<Integer> predecessor, int finalDistance, int finalVertex) {
 		ArrayList<Integer> reversePath = new ArrayList<Integer>();
 		ArrayList<Integer> path = new ArrayList<Integer>();
@@ -272,6 +291,13 @@ public class Graph {
 		return path;
 	}
 
+	/* modifiedDijkstra:		finds the path with the highest benefit-cost from the initial vertex to
+	 *							every other vertex, in particular the final vertex (deposit)
+	 * @param initialVertex:	initial vertex
+	 * @param finalVertex:		final vertex (deposit)
+	 *
+	 * @returns:				the return of rebuildPathDijkstra
+	 */
 	public ArrayList<Integer> modifiedDijkstra(int initialVertex, int finalVertex) {
 		ArrayList<Integer> backCost = new ArrayList<Integer>(this.numVertices);
 		ArrayList<Integer> backBenefit = new ArrayList<Integer>(this.numVertices);
@@ -318,6 +344,12 @@ public class Graph {
 		return rebuildPathDijkstra(backPredecessor, backDistance.get(finalVertex), finalVertex);
 	}
 
+	/* maxSTPrim:		calculates the maximum spanning tree from the given vertex to
+	 *					every other vertex, with function benefit-cost
+	 * @param vertex:	root of the spanning tree
+	 * 
+	 * @returns:		the return of rebuildPathPrim
+	 */
 	public ArrayList<ArrayList<Integer>> maxSTPrim(int vertex) {
 		ArrayList<Integer> costBenefit = new ArrayList<Integer>();
 		ArrayList<Integer> predecessor = new ArrayList<Integer>();
