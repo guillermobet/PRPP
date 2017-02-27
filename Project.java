@@ -29,9 +29,9 @@ public class Project {
 
 	/* fillGraph:		fills an empty graph structure with the file being read
 	 *					with the Scanner input
-	 * 
-	 *
-	 *
+	 * @param graph:	graph structure
+	 * @param input:	input scanner
+	 * @numEdges:		number of edges
 	 */
 	public static void fillGraph(Graph graph, Scanner input, int numEdges) {
 		String[] edgeStr;
@@ -46,6 +46,12 @@ public class Project {
 		}
 	}
 
+	/* cycleMaker:			concatenates two paths
+	 * @param myPath:		first path	
+	 * @param myBackPath:	second path
+	 *
+	 * @returns:			the concatenation of the two paths
+	 */
 	public static ArrayList<Integer> cycleMaker(ArrayList<Integer> myPath, ArrayList<Integer> myBackPath) {
 		ArrayList<Integer> myCycle = new ArrayList<Integer>();
 
