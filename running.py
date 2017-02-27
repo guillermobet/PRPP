@@ -33,7 +33,7 @@ for f in folders:
 	first = glob("{}/*".format(f))
 	print("Siguiente carpeta {}".format(f))
 	for archivo in natural_sort(first):
-		print(archivo)
+		#print(archivo)
 		res = func(archivo)
 		extract(res)
 
