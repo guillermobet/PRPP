@@ -33,7 +33,12 @@ public class Edge implements Comparable<Edge>{
 
 	public boolean connectsVertex(int v) {return (v == this.v1 || v == this.v2);}
 
-	// 0 == equal; 1 == distinct
+	/* (overriden from Comparable)
+	 * compareTo:		compares to edges
+	 * @param e:		edge to compare to
+	 *
+	 * @returns ret:	result of the comparison
+	 */
 	@Override
 	public int compareTo(Edge e) {
 		int ret = (((this.v1 == e.v1) && (this.v2 == e.v2)) || (this.v1 == e.v2) && (this.v2 == e.v1)) ? 0 : 1;

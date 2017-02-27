@@ -1,3 +1,7 @@
+'''
+        Programa auxiliar para generar las corridas del programa principal.
+        
+'''
 from subprocess import check_output
 import os
 from glob import glob
@@ -27,7 +31,7 @@ def limpiar():
                         os.remove(archivo)      
 
 
-limpiar()
+#limpiar()
                 
 for f in folders:
 	first = glob("{}/*".format(f))
@@ -36,5 +40,5 @@ for f in folders:
 		#print(archivo)
 		res = func(archivo)
 		extract(res)
-
+		
 limpiar()

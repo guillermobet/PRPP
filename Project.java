@@ -10,6 +10,11 @@ import java.io.FileNotFoundException;
 
 public class Project {
 
+	/* getNumber:		reads a number from a file with alphanumeric values
+	 * @param input:	scanner to read the input
+	 *
+	 * @returns number: the number read
+	 */
 	public static int getNumber(Scanner input) {
 		String[] line = input.nextLine().split(" ");
 		int number = -1;
@@ -22,6 +27,12 @@ public class Project {
 		return number;
 	}
 
+	/* fillGraph:		fills an empty graph structure with the file being read
+	 *					with the Scanner input
+	 * @param graph:	graph structure
+	 * @param input:	input scanner
+	 * @numEdges:		number of edges
+	 */
 	public static void fillGraph(Graph graph, Scanner input, int numEdges) {
 		String[] edgeStr;
 		int[] edgeInt = {0, 0, 0, 0};
@@ -35,6 +46,12 @@ public class Project {
 		}
 	}
 
+	/* cycleMaker:			concatenates two paths
+	 * @param myPath:		first path	
+	 * @param myBackPath:	second path
+	 *
+	 * @returns:			the concatenation of the two paths
+	 */
 	public static ArrayList<Integer> cycleMaker(ArrayList<Integer> myPath, ArrayList<Integer> myBackPath) {
 		ArrayList<Integer> myCycle = new ArrayList<Integer>();
 
@@ -67,7 +84,7 @@ public class Project {
 			graph.restartVisited();
 			
 			ArrayList<Integer> myPath, myBackPath, myCycle, myOptimizedCycle, bestCycle;
-			int myReward, myBackReward, bestOverallReward, optimizedOverallReward;
+			int myReward, myBackReward, bestOverallReward, optimizedOverallReward, optimizacionImprovement;
 
 			bestCycle = null;
 			bestOverallReward = Integer.MIN_VALUE;
@@ -88,9 +105,8 @@ public class Project {
 				graph.reconfigureBenefit(null);
 
 				myOptimizedCycle = graph.optimizeSolution(myCycle);
-				int foo = myOptimizedCycle.remove(myOptimizedCycle.size()-1);
-				System.out.println("foo: " + foo);
-				optimizedOverallReward = myReward + myBackReward + foo;
+				optimizacionImprovement = myOptimizedCycle.remove(myOptimizedCycle.size()-1);
+				optimizedOverallReward = myReward + myBackReward + optimizacionImprovement;
 				graph.reconfigureBenefit(null);
 
 				if (bestOverallReward < optimizedOverallReward) {
